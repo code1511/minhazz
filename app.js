@@ -1,26 +1,25 @@
-
 const express = require("express");
-const mongoose = require("mongoose");
-// const Router = require("./routes");
-
 const app = express();
-app.use(express.json());
-const username = "<code1511>";
+
+const { MongoClient } = require('mongodb');
+
 const password = "<Anchal>";
-const cluster = "<MinhazDb>";
-const dbname = "myFirstDatabase";
-mongoose.connect(
-    `mongodb+srv://${username}:${password}@${cluster}.mongodb.net/${dbname}?retryWrites=true&w=majority`,
-  {
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true
-  }
-);
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error: "));
-db.once("open", function () {
-  console.log("Connected successfully");
+const uri = "mongodb+srv://code1511:Anchal@minhazdb.i0w7l.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
+MongoClient.connect(uri, function(err, db) {
+  if (err) throw err;
+  // var dbo = db.db("mydb");
+  // var obj ={name:"Ankur dubey",address:"varanasi"};
+  // dbo.collection("customers").insertOne(obj,(err,res)=>{
+  //   if(err) throw err;
+  //   console.log("one value inserted");
+  //   db.close();
+  // })
+  console.log("db is working fine");
+  db.close();
+});
+app.get('/',(req,res)=>{
+res.sendFile(__dirname+'./p.html');
 });
 
 const PORT = process.env.PORT || 8000;
